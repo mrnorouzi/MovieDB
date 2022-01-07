@@ -5,5 +5,5 @@ import com.mrn.core.domain.Page
 import io.reactivex.Observable
 
 interface MovieDataSource {
-    fun getPopularMovieList(pageNumber: Int): Observable<Page<Movie>>
+    suspend fun getPopularMovieList(pageNumber: Int): Page<Movie>
 }

@@ -8,11 +8,13 @@ import com.mrn.moviedb.framework.network.MovieApi
 import com.mrn.moviedb.utils.toPage
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 
-class NetMovieDataSource(val movieApi: MovieApi) : MovieDataSource {
-    override fun getPopularMovieList(pageNumber: Int): Observable<Page<Movie>> {
+class NetMovieDataSource @Inject constructor(private val movieApi: MovieApi) : MovieDataSource {
+    override suspend fun getPopularMovieList(pageNumber: Int): Page<Movie> {
         return movieApi.getPopularMovies(Constants.API_KEY, pageNumber)
             .subscribeOn(Schedulers.io())
             .map { it.toPage() }
+            .blockingFirst()
     }
 }

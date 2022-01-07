@@ -3,16 +3,13 @@ package com.mrn.moviedb.di
 import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
-import android.os.Handler
-import android.os.HandlerThread
 import android.view.View
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
-import com.bumptech.glide.RequestManager
 import com.mrn.core.common.Constants
 import com.mrn.core.data.MovieDataSource
-import com.mrn.core.data.MovieRepository
 import com.mrn.moviedb.R
+import com.mrn.moviedb.data.MovieRepository
 import com.mrn.moviedb.framework.dataSource.NetMovieDataSource
 import com.mrn.moviedb.framework.network.LoggerInterceptor
 import com.mrn.moviedb.framework.network.MovieApi

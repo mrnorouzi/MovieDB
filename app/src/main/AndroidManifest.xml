@@ -12,9 +12,9 @@
         android:name=".MovieDBApp"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.MovieDB">
+        android:theme="@style/Theme.MovieDB.NoActionBar">
         <activity
-            android:name=".ui.movieList.MainActivity"
+            android:name="com.mrn.moviedb.ui.screens.movieList.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
