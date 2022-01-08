@@ -7,15 +7,17 @@ import com.mrn.core.common.Constants
 import com.mrn.core.data.MovieDataSource
 import com.mrn.core.domain.Movie
 import com.mrn.core.domain.Page
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOn
 
 class MovieRepository(private val dataSource: MovieDataSource) {
-    suspend fun getPopularMovieList(pageNumber: Int): Page<Movie> =
+    suspend fun getPopularMovieList(pageNumber: Int): Flow<Page<Movie>> =
         dataSource.getPopularMovieList(pageNumber)
 
 
     fun getPopularMoviePageStream(): Flow<PagingData<Movie>> = Pager(
         config = PagingConfig(pageSize = Constants.NETWORK_PAGE_SIZE, enablePlaceholders = false),
         pagingSourceFactory = { MoviePagingSource(dataSource, "") }
-    ).flow
+    ).flow.flowOn(Dispatchers.IO)
 }

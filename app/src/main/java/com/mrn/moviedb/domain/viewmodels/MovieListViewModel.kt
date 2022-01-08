@@ -6,9 +6,7 @@ import com.mrn.core.domain.Movie
 import com.mrn.moviedb.common.LoadingStates
 import com.mrn.moviedb.data.MovieRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -16,12 +14,17 @@ class MovieListViewModel @Inject constructor(private val movieRepository: MovieR
     ViewModel() {
 
     private val _loadingState = MutableStateFlow<LoadingStates>(LoadingStates.IDLE)
-    val loadingState = _loadingState.asStateFlow()
+    val loadingState
+        get() = _loadingState.asStateFlow()
     val movieList: MutableStateFlow<List<Movie>> = MutableStateFlow(listOf())
     val pagingDataFlow: Flow<PagingData<Movie>>
 
     init {
         pagingDataFlow = movieRepository.getPopularMoviePageStream()
+    }
+
+    fun loadingStateChanged(loadingStates: LoadingStates) {
+        _loadingState.value = loadingStates
     }
 
 //    var movieList: MutableStateFlow<PagingData<Movie>> = MutableStateFlow<PagingData<Movie>>()
@@ -72,7 +75,6 @@ class MovieListViewModel @Inject constructor(private val movieRepository: MovieR
 //        }
 //    }
 //
-
 
 
 //    private fun fetchData() {

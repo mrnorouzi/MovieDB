@@ -6,6 +6,7 @@ import com.mrn.core.data.MovieDataSource
 import com.mrn.moviedb.MovieDBApp
 import com.mrn.moviedb.data.MovieRepository
 import com.mrn.moviedb.framework.dataSource.NetMovieDataSource
+import com.mrn.moviedb.framework.network.FlowCallAdapterFactory
 import com.mrn.moviedb.framework.network.LoggerInterceptor
 import com.mrn.moviedb.framework.network.MovieApi
 import dagger.Module
@@ -49,7 +50,7 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideCallAdapterFactory(): CallAdapter.Factory = RxJava2CallAdapterFactory.create()
+    fun provideCallAdapterFactory(): CallAdapter.Factory = FlowCallAdapterFactory.create()
 
     @Singleton
     @Provides

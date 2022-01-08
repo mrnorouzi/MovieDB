@@ -7,17 +7,15 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
-import androidx.paging.PagingData
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.mrn.core.domain.Movie
 import com.mrn.moviedb.common.LoadingStates
 import com.mrn.moviedb.databinding.FragmentMovieListBinding
 import com.mrn.moviedb.domain.viewmodels.MovieListViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.FlowCollector
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -25,8 +23,8 @@ class MovieListFragment : Fragment() {
 
     private lateinit var binding: FragmentMovieListBinding
 
-    internal var movieAdapter: MovieAdapter? = null
-    private val listViewModel: MovieListViewModel by viewModels()
+    private var movieAdapter: MovieAdapter? = null
+    private val viewModel: MovieListViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,7 +33,7 @@ class MovieListFragment : Fragment() {
     ): View {
         binding = FragmentMovieListBinding.inflate(inflater)
             .apply {
-                viewModel = this@MovieListFragment.listViewModel
+                viewModel = this@MovieListFragment.viewModel
                 lifecycleOwner = this@MovieListFragment
             }
 
@@ -58,11 +56,20 @@ class MovieListFragment : Fragment() {
         binding.adapter = movieAdapter
 
         lifecycleScope.launch {
+            movieAdapter?.loadStateFlow
+//                ?.distinctUntilChangedBy { it.source.refresh }
+                ?.collect {
+                    when (it.append) {
+                        is LoadState.NotLoading -> viewModel.loadingStateChanged(LoadingStates.IDLE)
+                        is LoadState.Loading -> viewModel.loadingStateChanged(LoadingStates.LOADING)
+                        is LoadState.Error -> viewModel.loadingStateChanged(LoadingStates.error("loading error"))
+                    }
+                }
         }
 
         lifecycleScope.launch {
-            listViewModel.pagingDataFlow
-                .collect {
+            viewModel.pagingDataFlow
+                .collectLatest {
                     movieAdapter?.submitData(it)
                 }
         }

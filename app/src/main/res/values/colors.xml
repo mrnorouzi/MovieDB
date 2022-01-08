@@ -11,5 +11,6 @@
     <color name="card_default_bg">#EFEFEF</color>
     <color name="dark_blue">#09365B</color>
     <color name="star_color">#FFA000</color>
+    <color name="overlay_90">#E61E1E1E</color>
 
 </resources>

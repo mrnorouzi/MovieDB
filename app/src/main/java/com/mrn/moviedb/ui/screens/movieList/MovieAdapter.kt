@@ -53,23 +53,6 @@ class MovieAdapter(
         position: Int
     ): View.OnClickListener {
         return View.OnClickListener {
-//            val previousSelectedPosition = selectedPosition
-//            selectedPosition = position
-//            if (previousSelectedPosition != -1)
-//                notifyItemChanged(previousSelectedPosition)
-//            binding.root.animate().scaleX(SELECTION_SCALE).scaleY(SELECTION_SCALE).duration =
-//                SCALE_ANIM_DURATION
-//            binding.cardMovieItem.elevation =
-//                binding.cardMovieItem.context.resources.getDimension(R.dimen.elevation_normal)
-//            onMovieClickListener?.onItemClick(movie = movie)
         }
     }
-//
-//    fun setOnMovieClickListener(clickListener: OnMovieClickListener) {
-//        onMovieClickListener = clickListener
-//    }
-}
-
-interface OnMovieClickListener {
-    fun onItemClick(movie: Movie)
 }

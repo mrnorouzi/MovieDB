@@ -5,7 +5,10 @@
 
     <data>
 
-        <import type="com.mrn.core.common.Constants"/>
+        <import
+            alias="image"
+            type="com.mrn.core.common.CommonExtensionsKt"/>
+        <import type="com.mrn.core.common.ImageSize"/>
         <variable
             name="movie"
             type="com.mrn.core.domain.Movie" />
@@ -28,7 +31,7 @@
                 android:background="@color/dark_blue"
                 android:contentDescription="@{movie.title}"
                 android:scaleType="centerCrop"
-                app:imageUrl="@{Constants.SMALL_SIZE_IMAGE_PATH + movie.posterPath}"
+                app:imageUrl="@{image.toAbsolutePath(movie.posterPath, ImageSize.SMALL)}"
                 app:layout_constraintDimensionRatio="9:16"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -69,11 +72,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
                 android:drawablePadding="@dimen/spacing_normal"
-                android:paddingBottom="@dimen/spacing_large"
+                android:gravity="center"
                 app:drawableStartCompat="@drawable/ic_star"
                 app:layout_constraintStart_toStartOf="@+id/txtReleaseYearAndGenres"
                 app:layout_constraintTop_toBottomOf="@+id/txtReleaseYearAndGenres"
-                tools:text="@{movie.popularity.toString()}" />
+                tools:text="@{movie.votesAverage.toString()}" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>

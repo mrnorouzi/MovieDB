@@ -1,4 +1,4 @@
-package com.mrn.moviedb.ui.screens.movieList
+package com.mrn.moviedb.ui.screens.main
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
