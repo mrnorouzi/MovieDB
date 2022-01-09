@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="com.mrn.core.common.ImageSize" />
+
+        <import
+            alias="imageUtils"
+            type="com.mrn.core.common.CommonExtensionsKt" />
+
+        <variable
+            name="viewModel"
+            type="com.mrn.moviedb.domain.viewmodels.MovieDetailsViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black"
+        tools:context=".ui.screens.movieDetails.MovieDetailsFragment">
+
+        <ImageView
+            android:id="@+id/imgv_cover"
+            android:layout_width="0dp"
+            android:layout_height="460dp"
+            android:scaleType="fitCenter"
+            app:imageUrl='@{imageUtils.toAbsolutePath(viewModel.movieState != null ? viewModel.movieState.posterPath : "", ImageSize.BIG)}'
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@tools:sample/backgrounds/scenic" />
+
+        <TextView
+            android:id="@+id/txt_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_xxxlarge"
+            android:layout_marginTop="@dimen/spacing_xxxlarge"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_xxlarge"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imgv_cover"
+            tools:text='@{viewModel.movieState != null ? viewModel.movieState.originalTitle : "" }' />
+
+
+        <TextView
+            android:id="@+id/txt_genre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="36dp"
+            android:textColor="@color/white"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="@+id/txt_title"
+            app:layout_constraintTop_toTopOf="@+id/txt_title"/>
+<!--            tools:text='@{viewModel.movieState != null ? viewModel.movieState}' />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/txt_running_time"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="15dp"-->
+<!--            android:textColor="@color/white"-->
+<!--            app:layout_constraintStart_toEndOf="@+id/txt_genre"-->
+<!--            app:layout_constraintTop_toTopOf="@+id/txt_genre"-->
+<!--            tools:text='@{viewModel.movieState.}' />-->
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txt_genre" />
+
+
+        <TextView
+            android:id="@+id/txt_description"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_xxxlarge"
+            android:layout_marginEnd="@dimen/spacing_xxxlarge"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_large"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.2"
+            app:layout_constraintStart_toStartOf="@+id/txt_genre"
+            app:layout_constraintTop_toBottomOf="@+id/divider"
+            tools:text='@{viewModel.movieState != null ? viewModel.movieState.overview : ""}' />
+
+        <ProgressBar
+            android:id="@+id/loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="64dp"
+            android:layout_marginBottom="64dp"
+            android:elevation="2dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.3" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

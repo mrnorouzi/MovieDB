@@ -3,9 +3,12 @@ package com.mrn.moviedb.framework.dataSource
 import com.mrn.core.common.Constants
 import com.mrn.core.data.MovieDataSource
 import com.mrn.core.domain.Movie
+import com.mrn.core.domain.MovieDetails
 import com.mrn.core.domain.Page
 import com.mrn.moviedb.framework.network.MovieApi
+import com.mrn.moviedb.framework.network.dto.MovieDetailsResponseDto
 import com.mrn.moviedb.framework.network.dto.PageResponseDto
+import com.mrn.moviedb.utils.toMovieDetails
 import com.mrn.moviedb.utils.toPage
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
@@ -18,4 +21,7 @@ class NetMovieDataSource @Inject constructor(private val movieApi: MovieApi) : M
         return movieApi.getPopularMovies(Constants.API_KEY, pageNumber)
             .map(PageResponseDto::toPage)
     }
+
+    override suspend fun getMovieDetails(id: Int): Flow<MovieDetails> =
+        movieApi.getMovieDetails(id).map(MovieDetailsResponseDto::toMovieDetails)
 }

@@ -13,6 +13,8 @@ class MovieAdapter(
 //    private var movieList: MutableList<Movie>
 ) : PagingDataAdapter<Movie, MovieAdapter.MovieViewHolder>(REPO_COMPARATOR) {
 
+    var onItemClickListener : OnItemClickListener? = null
+
     companion object {
         private val REPO_COMPARATOR = object : DiffUtil.ItemCallback<Movie>() {
             override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean =
@@ -53,6 +55,11 @@ class MovieAdapter(
         position: Int
     ): View.OnClickListener {
         return View.OnClickListener {
+            onItemClickListener?.onItemClick(movie)
         }
     }
+}
+
+interface OnItemClickListener {
+    fun onItemClick(movie: Movie)
 }

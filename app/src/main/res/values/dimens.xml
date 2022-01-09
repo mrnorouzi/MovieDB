@@ -21,6 +21,7 @@
     <dimen name="font_ultra_small">8sp</dimen>
     <dimen name="font_very_small">10sp</dimen>
     <dimen name="font_xxlarge">22sp</dimen>
+    <dimen name="font_xlarge">20sp</dimen>
     <dimen name="icon_padding_medium">4dp</dimen>
     <dimen name="icon_size_circle_close_overlay">18dp</dimen>
     <dimen name="icon_size_large">48dp</dimen>

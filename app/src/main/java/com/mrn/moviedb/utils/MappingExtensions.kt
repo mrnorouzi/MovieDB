@@ -1,7 +1,11 @@
 package com.mrn.moviedb.utils
 
+import com.mrn.core.domain.GenreSingle
 import com.mrn.core.domain.Movie
+import com.mrn.core.domain.MovieDetails
 import com.mrn.core.domain.Page
+import com.mrn.moviedb.framework.network.dto.GenreDto
+import com.mrn.moviedb.framework.network.dto.MovieDetailsResponseDto
 import com.mrn.moviedb.framework.network.dto.MovieResponseDto
 import com.mrn.moviedb.framework.network.dto.PageResponseDto
 
@@ -31,3 +35,15 @@ internal fun MovieResponseDto.toMovie(): Movie {
         this.releaseDate,
     )
 }
+
+internal fun MovieDetailsResponseDto.toMovieDetails(): MovieDetails {
+    return MovieDetails(
+        id,
+        title,
+        overview,
+        posterPath,
+        genres?.map(GenreDto::toGenre)
+    )
+}
+
+internal fun GenreDto.toGenre(): GenreSingle = GenreSingle(id, name)

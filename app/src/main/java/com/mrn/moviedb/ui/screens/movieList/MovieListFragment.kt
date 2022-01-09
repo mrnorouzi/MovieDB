@@ -4,27 +4,36 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.mrn.core.data.MovieDataSource
+import com.mrn.core.domain.Movie
 import com.mrn.moviedb.common.LoadingStates
+import com.mrn.moviedb.data.MovieRepository
 import com.mrn.moviedb.databinding.FragmentMovieListBinding
 import com.mrn.moviedb.domain.viewmodels.MovieListViewModel
+import com.mrn.moviedb.framework.network.NetworkService
+import com.mrn.moviedb.ui.common.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class MovieListFragment : Fragment() {
+class MovieListFragment : BaseFragment() {
 
     private lateinit var binding: FragmentMovieListBinding
-
     private var movieAdapter: MovieAdapter? = null
+
     private val viewModel: MovieListViewModel by viewModels()
+
+    override fun onServiceBound(service: NetworkService) {
+        val movieRepository = MovieRepository(service)
+        viewModel.setRepository(movieRepository)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,12 +48,6 @@ class MovieListFragment : Fragment() {
 
         binding.recyclerMovies.layoutManager =
             object : GridLayoutManager(context, 3, RecyclerView.VERTICAL, false) {}
-//            {
-//                override fun checkLayoutParams(lp: RecyclerView.LayoutParams): Boolean {
-//                    lp.width = width / 5
-//                    return true
-//                }
-//            }
         return binding.root
     }
 
@@ -53,11 +56,19 @@ class MovieListFragment : Fragment() {
         if (movieAdapter == null)
             movieAdapter = MovieAdapter()
 
+        movieAdapter?.onItemClickListener = object : OnItemClickListener {
+            override fun onItemClick(movie: Movie) {
+                val action =
+                    MovieListFragmentDirections.actionMovieFragmentToMovieDetailsFragment(movie)
+                findNavController().navigate(action)
+            }
+        }
+
         binding.adapter = movieAdapter
 
         lifecycleScope.launch {
             movieAdapter?.loadStateFlow
-//                ?.distinctUntilChangedBy { it.source.refresh }
+//                ?.distinctUntilChangedBy { it.append }
                 ?.collect {
                     when (it.append) {
                         is LoadState.NotLoading -> viewModel.loadingStateChanged(LoadingStates.IDLE)
@@ -68,10 +79,11 @@ class MovieListFragment : Fragment() {
         }
 
         lifecycleScope.launch {
-            viewModel.pagingDataFlow
-                .collectLatest {
+            viewModel.pagingDataFlow.collect { pagingData ->
+                pagingData.collectLatest {
                     movieAdapter?.submitData(it)
                 }
+            }
         }
     }
 }

@@ -25,7 +25,7 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:id="@+id/imgvPoster"
+                android:id="@+id/imgv_poster"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:background="@color/dark_blue"
@@ -38,7 +38,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/txtMovieName"
+                android:id="@+id/txt_movie_name"
                 style="@style/TextAppearance.AppCompat.Body1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -47,11 +47,11 @@
                 android:layout_marginEnd="@dimen/spacing_medium"
                 android:ellipsize="end"
                 android:maxLines="1"
-                app:layout_constraintTop_toBottomOf="@+id/imgvPoster"
+                app:layout_constraintTop_toBottomOf="@+id/imgv_poster"
                 android:text="@{movie.title}" />
 
             <TextView
-                android:id="@+id/txtReleaseYearAndGenres"
+                android:id="@+id/txt_release_year"
                 style="@style/TextAppearance.AppCompat.Caption"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -62,11 +62,11 @@
                 android:maxLines="1"
                 android:text="@{movie.releaseDate}"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/txtMovieName"
-                app:layout_constraintTop_toBottomOf="@+id/txtMovieName" />
+                app:layout_constraintStart_toStartOf="@+id/txt_movie_name"
+                app:layout_constraintTop_toBottomOf="@+id/txt_movie_name" />
 
             <TextView
-                android:id="@+id/txtRating"
+                android:id="@+id/txt_rating"
                 style="@style/TextAppearance.AppCompat.Caption"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -74,8 +74,8 @@
                 android:drawablePadding="@dimen/spacing_normal"
                 android:gravity="center"
                 app:drawableStartCompat="@drawable/ic_star"
-                app:layout_constraintStart_toStartOf="@+id/txtReleaseYearAndGenres"
-                app:layout_constraintTop_toBottomOf="@+id/txtReleaseYearAndGenres"
+                app:layout_constraintStart_toStartOf="@+id/txt_release_year"
+                app:layout_constraintTop_toBottomOf="@+id/txt_release_year"
                 tools:text="@{movie.votesAverage.toString()}" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
