@@ -3,7 +3,7 @@ package com.mrn.moviedb.framework.network.dto
 import com.google.gson.annotations.SerializedName
 
 data class MovieResponseDto(
-    @SerializedName("id") val id: String?,
+    @SerializedName("id") val id: Int?,
     @SerializedName("title") val title: String?,
     @SerializedName("adult") val isAdult: Boolean?,
     @SerializedName("video") val isVideo: Boolean?,

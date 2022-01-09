@@ -9,18 +9,26 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.mrn.core.domain.MovieDetails
+import com.mrn.moviedb.data.MovieRepository
 import com.mrn.moviedb.databinding.FragmentMovieDetailsBinding
 import com.mrn.moviedb.domain.viewmodels.MovieDetailsViewModel
+import com.mrn.moviedb.framework.network.NetworkService
+import com.mrn.moviedb.ui.common.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class MovieDetailsFragment : Fragment() {
+class MovieDetailsFragment : BaseFragment() {
 
     private lateinit var binding: FragmentMovieDetailsBinding
 
     private val args: MovieDetailsFragmentArgs by navArgs()
     private val viewModel: MovieDetailsViewModel by viewModels()
+
+    override fun onServiceBound(service: NetworkService) {
+        val movieRepository = MovieRepository(service)
+        viewModel.setRepository(movieRepository)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

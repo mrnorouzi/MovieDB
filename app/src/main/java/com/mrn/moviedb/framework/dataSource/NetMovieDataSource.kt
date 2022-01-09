@@ -23,5 +23,5 @@ class NetMovieDataSource @Inject constructor(private val movieApi: MovieApi) : M
     }
 
     override suspend fun getMovieDetails(id: Int): Flow<MovieDetails> =
-        movieApi.getMovieDetails(id).map(MovieDetailsResponseDto::toMovieDetails)
+        movieApi.getMovieDetails(id, Constants.API_KEY).map(MovieDetailsResponseDto::toMovieDetails)
 }

@@ -1,5 +1,6 @@
 package com.mrn.core.common
 
+import com.mrn.core.domain.GenreSingle
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 
@@ -12,5 +13,9 @@ fun String.toAbsolutePath(size: ImageSize): String {
         ImageSize.BIG -> Constants.BIG_SIZE_IMAGE_PATH
     }
     return "$path$this"
+}
+
+fun List<GenreSingle>.toString(): String {
+    return this.map { it.name }.joinToString(separator = " | ")
 }
 

@@ -14,10 +14,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.channelFlow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -49,9 +46,11 @@ class NetworkService @Inject constructor() : Service(), MovieDataSource {
     override suspend fun getPopularMovieList(pageNumber: Int): Flow<Page<Movie>> {
         return channelFlow {
             withContext(serviceScope.coroutineContext) {
-                netMovieDataSource.getPopularMovieList(pageNumber).collect {
-                    channel.send(it)
-                }
+                netMovieDataSource.getPopularMovieList(pageNumber)
+                    .collect {
+                        channel.send(it)
+                        channel.close()
+                    }
             }
         }
     }
@@ -59,9 +58,11 @@ class NetworkService @Inject constructor() : Service(), MovieDataSource {
     override suspend fun getMovieDetails(id: Int): Flow<MovieDetails> {
         return channelFlow {
             withContext(serviceScope.coroutineContext) {
-                netMovieDataSource.getMovieDetails(id).collect {
-                    channel.send(it)
-                }
+                netMovieDataSource.getMovieDetails(id)
+                    .collect {
+                        channel.send(it)
+                        channel.close()
+                    }
             }
         }
     }

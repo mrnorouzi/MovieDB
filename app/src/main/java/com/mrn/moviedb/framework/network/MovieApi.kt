@@ -14,9 +14,13 @@ interface MovieApi {
     fun getPopularMovies(
         @Query("api_key") apiKey: String,
         @Query("page") pageNumber: Int
-    ) : Flow<PageResponseDto>
+    ): Flow<PageResponseDto>
 
     @GET("movie/{movie_id}")
-    fun getMovieDetails(@Path("movie_id") id: Int) : Flow<MovieDetailsResponseDto>
+    fun getMovieDetails(
+        @Path("movie_id") id: Int,
+        @Query("api_key") apiKey: String,
+    ): Flow<MovieDetailsResponseDto>
 
 }
+
