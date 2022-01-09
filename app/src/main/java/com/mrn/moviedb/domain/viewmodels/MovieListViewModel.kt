@@ -15,9 +15,12 @@ class MovieListViewModel @Inject constructor(/*private val movieRepository: Movi
 
 
     private val movieRepositoryState: MutableStateFlow<MovieRepository?> = MutableStateFlow(null)
-    private val _loadingState = MutableStateFlow<LoadingStates>(LoadingStates.IDLE)
+    private val _loadingState = MutableStateFlow(LoadingStates.IDLE)
     val loadingState
         get() = _loadingState.asStateFlow()
+    private val _firstLoadingState = MutableStateFlow(LoadingStates.LOADING)
+    val firstLoadingState
+        get() = _firstLoadingState.asStateFlow()
     val movieList: MutableStateFlow<List<Movie>> = MutableStateFlow(listOf())
     val pagingDataFlow: MutableStateFlow<Flow<PagingData<Movie>>> = MutableStateFlow(
         flowOf(
@@ -25,8 +28,6 @@ class MovieListViewModel @Inject constructor(/*private val movieRepository: Movi
         )
     )
 
-    //    init {
-//    }
     fun setRepository(movieRepository: MovieRepository) {
         movieRepositoryState.value = movieRepository
         pagingDataFlow.value = movieRepository.getPopularMoviePageStream()
@@ -34,5 +35,9 @@ class MovieListViewModel @Inject constructor(/*private val movieRepository: Movi
 
     fun loadingStateChanged(loadingStates: LoadingStates) {
         _loadingState.value = loadingStates
+    }
+
+    fun updateFirstLoadingState(loadingStates: LoadingStates){
+        _firstLoadingState.value = loadingStates
     }
 }

@@ -28,7 +28,7 @@ open class BaseFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (bound == false) {
+        if (bound == null || bound == false) {
             Intent(activity, NetworkService::class.java).also { intent ->
                 activity?.bindService(intent, connection, Context.BIND_AUTO_CREATE)
             }

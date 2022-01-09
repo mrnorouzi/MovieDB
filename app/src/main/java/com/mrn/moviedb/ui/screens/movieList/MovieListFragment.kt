@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -65,6 +66,26 @@ class MovieListFragment : BaseFragment() {
         }
 
         binding.adapter = movieAdapter
+
+        viewModel.updateFirstLoadingState(LoadingStates.LOADING)
+        movieAdapter?.addLoadStateListener { loadState ->
+
+            if (loadState.refresh is LoadState.Loading) {
+                viewModel.updateFirstLoadingState(LoadingStates.LOADING)
+            } else {
+                val errorState = when {
+                    loadState.append is LoadState.Error -> loadState.append as LoadState.Error
+                    loadState.prepend is LoadState.Error -> loadState.prepend as LoadState.Error
+                    loadState.refresh is LoadState.Error -> loadState.refresh as LoadState.Error
+                    else -> null
+                }
+                if (errorState != null) {
+                    viewModel.updateFirstLoadingState(LoadingStates.error(errorState.error.message))
+                } else {
+                    viewModel.updateFirstLoadingState(LoadingStates.IDLE)
+                }
+            }
+        }
 
         lifecycleScope.launch {
             movieAdapter?.loadStateFlow

@@ -16,7 +16,8 @@
         <service
             android:name=".framework.network.NetworkService"
             android:enabled="true"
-            android:exported="false"></service>
+            android:exported="false"
+            android:stopWithTask="true" />
 
         <activity
             android:name=".ui.screens.main.MainActivity"

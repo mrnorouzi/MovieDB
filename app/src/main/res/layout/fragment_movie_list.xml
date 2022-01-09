@@ -47,7 +47,6 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="?attr/colorSecondary"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
 
@@ -69,6 +68,32 @@
                 android:indeterminate="true"
                 android:visibility="@{viewModel.loadingState.status == Status.LOADING ? View.VISIBLE : View.GONE}"
                 app:layout_constraintBottom_toBottomOf="parent" />
+
+            <ProgressBar
+                android:id="@+id/loading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:elevation="2dp"
+                android:visibility="@{viewModel.firstLoadingState.Status == Status.LOADING ? View.VISIBLE : View.GONE}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_normal"
+                android:text='@{viewModel.firstLoadingState.Status == Status.FAILED ? "Failed To Loading Movies!" : ""}'
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textColor="@color/design_default_color_error"
+                android:textSize="@dimen/font_large"
+                android:visibility="@{viewModel.firstLoadingState.Status == Status.FAILED ? View.VISIBLE : View.GONE}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -96,10 +121,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/spacing_normal"
+                    android:onClick="@{() -> adapter.retry()}"
                     android:text="@string/label_retry"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:onClick="@{() -> adapter.retry()}"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
